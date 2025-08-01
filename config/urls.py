@@ -11,6 +11,8 @@ from rest_framework_simplejwt.views import (
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.urls import path, include
+
 
 # === SCHEMA VIEW ===
 schema_view = get_schema_view(
@@ -29,9 +31,12 @@ router.register(r'products', ProductViewSet)
 router.register(r'categories', CategoryViewSet)
 router.register(r'orders', OrderViewSet, basename='orders')
 router.register(r'order-items', OrderItemViewSet, basename='order-items')
+#router.register(r'order-items', OrderItemViewSet, basename='orderitem')
+
 
 # === URLPATTERNS ===
 urlpatterns = [
+   # path('api/', include('orders.urls')),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/register/', RegisterView.as_view(), name='register'),
