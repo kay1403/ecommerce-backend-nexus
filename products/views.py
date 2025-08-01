@@ -6,14 +6,14 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # ViewSet pour les catégories
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('id') 
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'slug']  # Permet la recherche par nom ou slug
 
 # ViewSet pour les produits
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('id')
     serializer_class = ProductSerializer
 
     # Ajout des fonctionnalités de filtrage, recherche et tri
