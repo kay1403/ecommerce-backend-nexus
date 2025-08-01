@@ -11,7 +11,10 @@ from rest_framework_simplejwt.views import (
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from django.urls import path, include
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Bienvenue sur l'API Ecommerce Backend Nexus")
 
 
 # === SCHEMA VIEW ===
@@ -37,6 +40,7 @@ router.register(r'order-items', OrderItemViewSet, basename='order-items')
 # === URLPATTERNS ===
 urlpatterns = [
    # path('api/', include('orders.urls')),
+    path('', home),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/register/', RegisterView.as_view(), name='register'),
