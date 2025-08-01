@@ -1,21 +1,44 @@
 from pathlib import Path
 from decouple import config, Csv
 import os
+from dotenv import load_dotenv
 from datetime import timedelta
+from django.core.exceptions import ImproperlyConfigured
+from decouple import config
+import dj_database_url
 
-# Build paths inside the project
+# Chemin de base du projet
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+# Charger le fichier .env à la racine du projet
+load_dotenv(dotenv_path=BASE_DIR / '.env')
 
-# DEBUG
-DEBUG = config('DEBUG', default=True, cast=bool)
+# Fonction pour récupérer une variable d'environnement ou lever une erreur claire
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        raise ImproperlyConfigured(f"Set the {var_name} environment variable")
 
-# Allowed Hosts
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+# SECRET_KEY obligatoire
+SECRET_KEY = get_env_variable("SECRET_KEY")
 
-# Application definition
+# DEBUG, converti en booléen
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+# Hosts autorisés
+ALLOWED_HOSTS = ['*']  # Ajuste selon ton besoin en production
+
+# Configuration base de données via DATABASE_URL (PostgreSQL)
+DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
+    raise ImproperlyConfigured("DATABASE_URL environment variable is not set")
+
+DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=False)
+}
+
+# Applications installées
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,12 +57,13 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'orders',
-
 ]
 
+# Middleware
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,32 +91,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# PostgreSQL Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
-    }
-}
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
 # Internationalization
@@ -102,7 +106,8 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -117,17 +122,17 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
-# JWT Settings
+# JWT settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# CORS (tu peux restreindre plus tard)
+# CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Swagger/OpenAPI settings
+# Swagger settings
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Bearer': {
