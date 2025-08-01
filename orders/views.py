@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from rest_framework.permissions import IsAuthenticated
 from .models import Order, OrderItem
 from .serializers import OrderReadSerializer, OrderWriteSerializer, OrderItemSerializer
 
@@ -31,3 +32,5 @@ class OrderViewSet(viewsets.ModelViewSet):
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
+    permission_classes = [IsAuthenticated]
+
