@@ -92,7 +92,7 @@ python manage.py createsuperuser
 # Run server
 python manage.py runserver
 
-🧪 API Testing
+## 🧪 API Testing
 
 📃 Swagger Docs
 Swagger UI: https://ecommerce-backend-nexus.onrender.com/swagger/
@@ -104,12 +104,12 @@ Redoc: https://ecommerce-backend-nexus.onrender.com/redoc/
 Postman:
 A Postman collection can also be used to test the API endpoints.
 
-🚀 Deployment
+##🚀 Deployment
 The project is deployed on Render and can be accessed here:
 
 🔗 Live API
 
-✅ Git Commit History
+##✅ Git Commit History
 
 feat: set up Django project with PostgreSQL
 feat: implement JWT user authentication
@@ -119,7 +119,7 @@ docs: add Swagger UI for API usage
 perf: optimize queries with indexes
 
 
-📊 Evaluation Criteria
+##📊 Evaluation Criteria
 
 ✅ Functionality
 Full CRUD for products and categories.
@@ -145,10 +145,10 @@ Descriptive and regular commits.
 
 Well-structured repository.
 
-👤 Author
+##👤 Author
 Ange Koumba
 Backend Developer | Django Enthusiast
 GitHub:kay1403
 
-📬 Contact
+##📬 Contact
 For questions, feel free to open an issue or contact me at: angekoumba754@gmail.comm
