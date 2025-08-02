@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# ----- Serializer des OrderItems -----
 class OrderItemSerializer(serializers.ModelSerializer):
     product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
@@ -16,7 +15,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 
-# ----- Serializer pour la lecture (GET) -----
 class OrderReadSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     order_items = OrderItemSerializer(many=True, read_only=True)
@@ -26,7 +24,6 @@ class OrderReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'order_items', 'total_price', 'status', 'created_at', 'updated_at']
 
 
-# ----- Serializer pour la création/mise à jour (POST/PUT) -----
 class OrderWriteSerializer(serializers.ModelSerializer):
     order_items = OrderItemSerializer(many=True)
 
@@ -45,15 +42,12 @@ class OrderWriteSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         order_items_data = validated_data.pop('order_items', None)
 
-        # Met à jour les champs de la commande
         instance.total_price = validated_data.get('total_price', instance.total_price)
         instance.status = validated_data.get('status', instance.status)
         instance.save()
 
         if order_items_data is not None:
-            # Supprimer tous les order_items précédents
             instance.order_items.all().delete()
-            # Recréer les nouveaux order_items
             for item_data in order_items_data:
                 OrderItem.objects.create(order=instance, **item_data)
 

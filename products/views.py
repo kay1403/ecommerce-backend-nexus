@@ -8,13 +8,13 @@ from rest_framework.response import Response
 from django.db.models import Count
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all().order_by('id')  # <-- Ajouté pour éviter le crash
+    queryset = Category.objects.all().order_by('id')  
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'slug']
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all().order_by('id')  # <-- Ajouté ici aussi
+    queryset = Product.objects.all().order_by('id')  
     serializer_class = ProductSerializer
 
     filter_backends = [

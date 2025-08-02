@@ -7,29 +7,28 @@ from django.core.exceptions import ImproperlyConfigured
 from decouple import config
 import dj_database_url
 
-# Chemin de base du projet
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Charger le fichier .env à la racine du projet
+
 load_dotenv(dotenv_path=BASE_DIR / '.env')
 
-# Fonction pour récupérer une variable d'environnement ou lever une erreur claire
+
 def get_env_variable(var_name):
     try:
         return os.environ[var_name]
     except KeyError:
         raise ImproperlyConfigured(f"Set the {var_name} environment variable")
 
-# SECRET_KEY obligatoire
+# SECRET_KEY 
 SECRET_KEY = get_env_variable("SECRET_KEY")
 
-# DEBUG, converti en booléen
+# DEBUG
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-# Hosts autorisés
-ALLOWED_HOSTS = ['*']  # Ajuste selon ton besoin en production
 
-# Configuration base de données via DATABASE_URL (PostgreSQL)
+ALLOWED_HOSTS = ['*']  
+
+# DB Configuratin via DATABASE_URL (PostgreSQL)
 DATABASE_URL = os.getenv('DATABASE_URL')
 if not DATABASE_URL:
     raise ImproperlyConfigured("DATABASE_URL environment variable is not set")
@@ -38,7 +37,6 @@ DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=False)
 }
 
-# Applications installées
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,14 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Third-party apps
     'rest_framework',
     'corsheaders',
     'drf_yasg',
     'django_filters',
-
-    # Local apps
     'accounts',
     'products',
     'orders',

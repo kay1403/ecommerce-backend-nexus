@@ -14,7 +14,7 @@ from drf_yasg import openapi
 from django.http import HttpResponse
 
 def home(request):
-    return HttpResponse("Bienvenue sur l'API Ecommerce Backend Nexus")
+    return HttpResponse("Welcome to the Nexus Ecommerce Backend API")
 
 
 # === SCHEMA VIEW ===
