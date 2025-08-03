@@ -44,7 +44,7 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         
         order = Order.objects.create(user=user, status=validated_data.get('status', 'PENDING'), total_price=0)
 
-        total = 0
+        total_price = 0
         for item_data in order_items_data:
             product = item_data['product']
             quantity = item_data['quantity']
