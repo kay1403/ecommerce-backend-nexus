@@ -20,29 +20,39 @@ class OrderWriteSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['order_items', 'status']
 
-    def create(self, validated_data):
-        order_items_data = validated_data.pop('order_items', [])
-        user = self.context['request'].user
+def create(self, validated_data):
+    order_items_data = validated_data.pop('order_items', [])
+    user = self.context['request'].user
 
-        order = Order.objects.create(user=user, status=validated_data.get('status', 'pending'))
+    # 🔢 Calcule d'abord total_price
+    total_price = 0
+    for item_data in order_items_data:
+        product = item_data['product']
+        quantity = item_data['quantity']
+        total_price += product.price * quantity
 
-        total_price = 0
-        for item_data in order_items_data:
-            product = item_data['product']
-            quantity = item_data['quantity']
-            item_price = product.price * quantity
-            total_price += item_price
+    # ✅ Crée la commande avec total_price déjà fourni
+    order = Order.objects.create(
+        user=user,
+        status=validated_data.get('status', 'pending'),
+        total_price=total_price
+    )
 
-            OrderItem.objects.create(
-                order=order,
-                product=product,
-                quantity=quantity,
-                price=item_price
-            )
+    # 🧱 Crée ensuite les OrderItems avec les bons prix
+    for item_data in order_items_data:
+        product = item_data['product']
+        quantity = item_data['quantity']
+        item_price = product.price * quantity
 
-        order.total_price = total_price
-        order.save()
-        return order
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=quantity,
+            price=item_price
+        )
+
+    return order
+
 
     def update(self, instance, validated_data):
         order_items_data = validated_data.pop('order_items', None)
