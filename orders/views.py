@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions
 from .models import Order, OrderItem
-from .serializers import OrderReadSerializer, OrderWriteSerializer, OrderItemSerializer
+from .serializers import OrderReadSerializer, OrderWriteSerializer, OrderItemReadSerializer, OrderItemWriteSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -13,11 +13,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             return OrderReadSerializer
         return OrderWriteSerializer
 
-    #def get_queryset(self):
-       # user = self.request.user
-       # if user.is_staff:
-        #    return Order.objects.all()
-       # return Order.objects.filter(user=user)
+    
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
           return Order.objects.none()
@@ -39,4 +35,4 @@ class OrderViewSet(viewsets.ModelViewSet):
     
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
-    serializer_class = OrderItemSerializer
+    serializer_class = OrderItemReadSerializer

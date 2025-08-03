@@ -5,53 +5,56 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# 🟢 D'ABORD : OrderItemSerializer
-class OrderItemSerializer(serializers.ModelSerializer):
+class OrderItemWriteSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+
     class Meta:
         model = OrderItem
-        fields = ['product', 'quantity', 'price']
-        read_only_fields = ['price']
+        fields = ['product', 'quantity']  
 
-# 🟡 PUIS : OrderWriteSerializer
-class OrderWriteSerializer(serializers.ModelSerializer):
-    order_items = OrderItemSerializer(many=True)
+class OrderItemReadSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product', 'quantity', 'price']
+
+
+class OrderReadSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    order_items = OrderItemReadSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = ['order_items', 'status']
+        fields = ['id', 'user', 'order_items', 'total_price', 'status', 'created_at', 'updated_at']
 
-def create(self, validated_data):
-    order_items_data = validated_data.pop('order_items', [])
-    user = self.context['request'].user
 
-    # 🔢 Calcule d'abord total_price
-    total_price = 0
-    for item_data in order_items_data:
-        product = item_data['product']
-        quantity = item_data['quantity']
-        total_price += product.price * quantity
+class OrderWriteSerializer(serializers.ModelSerializer):
+    order_items = OrderItemWriteSerializer(many=True)
 
-    # ✅ Crée la commande avec total_price déjà fourni
-    order = Order.objects.create(
-        user=user,
-        status=validated_data.get('status', 'pending'),
-        total_price=total_price
-    )
+    class Meta:
+        model = Order
+        fields = ['order_items', 'status']  
 
-    # 🧱 Crée ensuite les OrderItems avec les bons prix
-    for item_data in order_items_data:
-        product = item_data['product']
-        quantity = item_data['quantity']
-        item_price = product.price * quantity
+    def create(self, validated_data):
+        order_items_data = validated_data.pop('order_items')
+        user = self.context['request'].user if 'request' in self.context else None
 
-        OrderItem.objects.create(
-            order=order,
-            product=product,
-            quantity=quantity,
-            price=item_price
-        )
+        
+        order = Order.objects.create(user=user, status=validated_data.get('status', 'PENDING'), total_price=0)
 
-    return order
+        total = 0
+        for item_data in order_items_data:
+            product = item_data['product']
+            quantity = item_data['quantity']
+            price = product.price * quantity
+            total += price
+            OrderItem.objects.create(order=order, product=product, quantity=quantity, price=price)
+
+        order.total_price = total
+        order.save()
+        return order
 
 
     def update(self, instance, validated_data):
@@ -61,30 +64,15 @@ def create(self, validated_data):
 
         if order_items_data is not None:
             instance.order_items.all().delete()
-            total_price = 0
+            total = 0
             for item_data in order_items_data:
                 product = item_data['product']
                 quantity = item_data['quantity']
-                item_price = product.price * quantity
-                total_price += item_price
+                price = product.price * quantity
+                total += price
+                OrderItem.objects.create(order=instance, product=product, quantity=quantity, price=price)
 
-                OrderItem.objects.create(
-                    order=instance,
-                    product=product,
-                    quantity=quantity,
-                    price=item_price
-                )
-
-            instance.total_price = total_price
+            instance.total_price = total
             instance.save()
 
         return instance
-
-# 🔵 ENFIN : OrderReadSerializer
-class OrderReadSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)
-    order_items = OrderItemSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Order
-        fields = ['id', 'user', 'order_items', 'total_price', 'status', 'created_at', 'updated_at']
