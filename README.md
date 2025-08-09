@@ -1,59 +1,58 @@
-# 🛒 E-Commerce Backend
+# E-Commerce Backend
 
 This project is a backend system designed for a real-world e-commerce application. It focuses on scalability, security, and performance using Django and PostgreSQL.
 
-## 🚀 Project Overview
+## Project Overview
 
 This backend supports a complete e-commerce product catalog, user authentication, and robust APIs for frontend integration. It is built to simulate real-world backend development scenarios.
 
 ---
 
-## 🎯 Project Goals
+## Project Goals
 
-- ✅ **CRUD APIs** for managing products, categories, and users.
-- ✅ **User Authentication** using JSON Web Tokens (JWT).
-- ✅ **Filtering, Sorting, and Pagination** for efficient product browsing.
-- ✅ **Database Optimization** via indexing and query tuning.
-- ✅ **API Documentation** with Swagger/OpenAPI for ease of use.
-
----
-
-## 🛠️ Technologies Used
-
-| Tool          | Description                                  |
-|---------------|----------------------------------------------|
-| Django        | Backend web framework                        |
-| PostgreSQL    | Relational database                          |
-| JWT           | Secure token-based user authentication       |
-| Swagger       | API documentation and testing                |
-| Django REST Framework | For building RESTful APIs            |
+- **CRUD APIs** for managing products, categories, and users.  
+- **User Authentication** using JSON Web Tokens (JWT).  
+- **Filtering, Sorting, and Pagination** for efficient product browsing.  
+- **Database Optimization** via indexing and query tuning.  
+- **API Documentation** with Swagger/OpenAPI for ease of use.
 
 ---
 
-## 🔑 Key Features
+## Technologies Used
 
-### 1. Authentication
-- User registration and login using JWT.
+| Tool                  | Description                       |
+|-----------------------|---------------------------------|
+| Django                | Backend web framework            |
+| PostgreSQL            | Relational database              |
+| JWT                   | Secure token-based authentication|
+| Swagger               | API documentation and testing   |
+| Django REST Framework | For building RESTful APIs        |
+
+---
+
+## Key Features
+
+### 1. Authentication  
+- User registration and login using JWT.  
 - Token-based authentication for secured endpoints.
 
-### 2. Product & Category Management
-- CRUD operations for products and categories.
+### 2. Product & Category Management  
+- CRUD operations for products and categories.  
 - Each product is associated with a category.
 
-### 3. Advanced API Features
-- **Filtering** by category or name (case-insensitive).
-- **Sorting** by price (ascending or descending).
-- **Pagination** with configurable page size.
+### 3. Advanced API Features  
+- **Filtering** by category or name (case-insensitive).  
+- **Sorting** by price (ascending or descending).  
+- **Pagination** with configurable page size.  
 - **Search** support via query parameters.
 
-### 4. API Documentation
-- Swagger (drf-yasg) is used for auto-generating interactive API documentation.
-- Available at: `https://ecommerce-backend-nexus.onrender.com/swagger/
-`
+### 4. API Documentation  
+- Swagger (drf-yasg) is used for auto-generating interactive API documentation.  
+- Available at: `https://ecommerce-backend-nexus.onrender.com/swagger/`
 
 ---
 
-## 📦 API Endpoints
+## API Endpoints
 
 | Method | Endpoint              | Description                   |
 |--------|-----------------------|-------------------------------|
@@ -69,7 +68,25 @@ This backend supports a complete e-commerce product catalog, user authentication
 
 ---
 
-## ⚙️ Installation
+## Important URLs
+
+| Feature           | Method | URL                                                                   |
+|-------------------|--------|-----------------------------------------------------------------------|
+| Home              | GET    | https://ecommerce-backend-nexus.onrender.com/                        |
+| Swagger UI        | GET    | https://ecommerce-backend-nexus.onrender.com/swagger/                |
+| Authentication    | POST   | https://ecommerce-backend-nexus.onrender.com/api/token/              |
+| Refresh token     | POST   | https://ecommerce-backend-nexus.onrender.com/api/token/refresh/      |
+| User registration | POST   | https://ecommerce-backend-nexus.onrender.com/api/register/           |
+| List products     | GET    | https://ecommerce-backend-nexus.onrender.com/api/products/           |
+| Popular product   | GET    | https://ecommerce-backend-nexus.onrender.com/api/products/popular/   |
+| Low stock product | GET    | https://ecommerce-backend-nexus.onrender.com/api/products/low-stock/ |
+| List categories   | GET    | https://ecommerce-backend-nexus.onrender.com/api/categories/         |
+| List orders       | GET    | https://ecommerce-backend-nexus.onrender.com/api/orders/             |
+| View my orders    | GET    | https://ecommerce-backend-nexus.onrender.com/api/orders/my_orders/   |
+
+---
+
+## Installation
 
 ```bash
 # Clone the repo
@@ -92,63 +109,39 @@ python manage.py createsuperuser
 # Run server
 python manage.py runserver
 
-🧪 API Testing
-
-📃 Swagger Docs
+API Testing
+Swagger Docs:
 Swagger UI: https://ecommerce-backend-nexus.onrender.com/swagger/
-
 Redoc: https://ecommerce-backend-nexus.onrender.com/redoc/
-
-
-
 Postman:
 A Postman collection can also be used to test the API endpoints.
-
-🚀 Deployment
+Deployment
 The project is deployed on Render and can be accessed here:
+Live API
 
-🔗 Live API
-
-✅ Git Commit History
-
+Git Commit History
 feat: set up Django project with PostgreSQL
 feat: implement JWT user authentication
 feat: add product/category CRUD endpoints
 feat: enable filtering, sorting and pagination
 docs: add Swagger UI for API usage
 perf: optimize queries with indexes
-
-
-📊 Evaluation Criteria
-
-✅ Functionality
+Evaluation Criteria
+Functionality
 Full CRUD for products and categories.
-
 JWT authentication implemented.
-
 Search, filter, pagination logic included.
-
-✅ Code Quality
+Code Quality
 Clean, readable code.
-
 Proper use of serializers, views, and models.
-
 Indexing and optimized queries.
-
-✅ API Usability
+API Usability
 Full Swagger documentation.
-
 Easy-to-navigate endpoints.
-
-✅ Git Workflow
+Git Workflow
 Descriptive and regular commits.
-
 Well-structured repository.
-
-👤 Author
+Author
 Ange Koumba
 Backend Developer | Django Enthusiast
-GitHub:kay1403
-
-📬 Contact
-For questions, feel free to open an issue or contact me at: angekoumba754@gmail.comm
+GitHub: kay1403
