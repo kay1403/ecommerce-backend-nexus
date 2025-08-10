@@ -34,7 +34,9 @@ if not DATABASE_URL:
     raise ImproperlyConfigured("DATABASE_URL environment variable is not set")
 
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    'default': dj_database_url.parse(
+        "postgresql://ecommerce_04th_user:qnrpLxMXBMgZXGjaibwUj12bNDIv6dfp@dpg-d26g2bbe5dus739mad5g-a.oregon-postgres.render.com:5432/ecommerce_04th"
+    )
 }
 
 INSTALLED_APPS = [
