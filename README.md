@@ -108,40 +108,61 @@ python manage.py createsuperuser
 
 # Run server
 python manage.py runserver
+```
 
-API Testing
-Swagger Docs:
-Swagger UI: https://ecommerce-backend-nexus.onrender.com/swagger/
-Redoc: https://ecommerce-backend-nexus.onrender.com/redoc/
-Postman:
-A Postman collection can also be used to test the API endpoints.
-Deployment
-The project is deployed on Render and can be accessed here:
-Live API
+## API Testing
 
-Git Commit History
-feat: set up Django project with PostgreSQL
-feat: implement JWT user authentication
-feat: add product/category CRUD endpoints
-feat: enable filtering, sorting and pagination
-docs: add Swagger UI for API usage
-perf: optimize queries with indexes
-Evaluation Criteria
-Functionality
-Full CRUD for products and categories.
-JWT authentication implemented.
-Search, filter, pagination logic included.
-Code Quality
-Clean, readable code.
-Proper use of serializers, views, and models.
-Indexing and optimized queries.
-API Usability
-Full Swagger documentation.
-Easy-to-navigate endpoints.
-Git Workflow
-Descriptive and regular commits.
-Well-structured repository.
-Author
-Ange Koumba
-Backend Developer | Django Enthusiast
-GitHub: kay1403
+### Swagger Docs
+- **Swagger UI:** [https://ecommerce-backend-nexus.onrender.com/swagger/](https://ecommerce-backend-nexus.onrender.com/swagger/)
+- **ReDoc:** [https://ecommerce-backend-nexus.onrender.com/redoc/](https://ecommerce-backend-nexus.onrender.com/redoc/)
+
+### Postman
+A Postman collection is available to test all API endpoints.
+
+---
+
+##  Deployment
+
+The project is deployed on **Render**:  
+**Live API:** [https://ecommerce-backend-nexus.onrender.com](https://ecommerce-backend-nexus.onrender.com)
+
+---
+
+## Git Commit History
+
+- `feat`: set up Django project with PostgreSQL  
+- `feat`: implement JWT user authentication  
+- `feat`: add product/category CRUD endpoints  
+- `feat`: enable filtering, sorting, and pagination  
+- `docs`: add Swagger UI for API usage  
+- `perf`: optimize queries with indexes  
+
+---
+
+## Evaluation Criteria
+
+### Functionality
+- Full CRUD for products and categories.
+- JWT authentication implemented.
+- Search, filter, pagination logic included.
+
+### Code Quality
+- Clean, readable code.
+- Proper use of serializers, views, and models.
+- Indexing and optimized queries.
+
+### API Usability
+- Full Swagger documentation.
+- Easy-to-navigate endpoints.
+
+### Git Workflow
+- Descriptive and regular commits.
+- Well-structured repository.
+
+---
+
+##  Author
+
+**Ange Koumba**  
+Backend Developer | Django Enthusiast  
+GitHub: [kay1403](https://github.com/kay1403)
